@@ -30,13 +30,14 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
 
-    - name: Build and Push Docker Image to ACR
+    - name: Login to ACR
       uses: azure/docker-login@v1
       with:
         login-server: ghdemo.azurecr.io
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
 
+    - name: Build and Push Docker Image to ACR
       run: |
         docker build . -t ghdemo.azurecr.io/javaapp:${{ github.sha }}
         docker push ghdemo.azurecr.io/javaapp:${{ github.sha }}
